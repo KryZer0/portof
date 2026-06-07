@@ -174,8 +174,6 @@
                         </div>
 
                         <div class="project-buttons">
-                            <a href="#">Github</a>
-                            <a href="#">Preview</a>
                         </div>
 
                     </div>
@@ -274,7 +272,7 @@
                         </div>
 
                         <div class="project-buttons">
-                            <a href="#">Preview</a>
+                            <a href="https://hrdrci-ritra.com" target="_blank">Preview</a>
                         </div>
 
                     </div>
