@@ -391,21 +391,188 @@ section{
 
 @media(max-width:768px){
 
+    .container{
+        width:92%;
+    }
+
+    section{
+        padding:80px 0;
+    }
+
+    /* HERO */
+    .hero{
+        min-height:auto;
+        padding-top:120px;
+    }
+
     .hero-container{
         flex-direction:column-reverse;
         text-align:center;
+        gap:35px;
+    }
+
+    .hero-text{
+        align-items:center;
+    }
+
+    .small-text{
+        font-size:.95rem;
     }
 
     .title{
-        font-size:3rem;
+        font-size:2.8rem;
+        line-height:1.15;
     }
 
+    #typing{
+        font-size:1.2rem;
+    }
+
+    .description{
+        font-size:.95rem;
+        line-height:1.8;
+        max-width:100%;
+    }
+
+    /* BUTTON */
+    .hero-buttons{
+        width:100%;
+        display:flex;
+        gap:12px;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .btn{
+        padding:12px 18px;
+        font-size:.9rem;
+        margin-right:0;
+    }
+
+    /* PROFILE */
     .image-wrapper{
-        width:280px;
+        width:220px;
     }
 
+    /* NAV */
     .nav-links{
         display:none;
+    }
+
+    .logo{
+        font-size:1.3rem;
+    }
+
+    /* SECTION TITLE */
+    .section-title{
+        font-size:1.8rem;
+        margin-bottom:30px;
+    }
+
+    /* SKILL GRID 2 KOLOM */
+    .card-grid{
+        grid-template-columns:
+        repeat(2,1fr);
+        gap:15px;
+    }
+
+    .skill-card{
+        padding:20px 15px;
+    }
+
+    .skill-card i{
+        font-size:35px;
+        margin-bottom:10px;
+    }
+
+    .skill-card h3{
+        font-size:1rem;
+    }
+
+    /* PROJECT */
+    .project-showcase{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .project-expand{
+        height:360px;
+    }
+
+    .project-overlay{
+        padding:20px;
+        min-height:150px;
+    }
+
+    .project-overlay h3{
+        font-size:22px;
+    }
+
+    .project-overlay p{
+        font-size:.9rem;
+        line-height:1.7;
+    }
+
+    .project-buttons{
+        flex-wrap:wrap;
+    }
+
+    .project-buttons a{
+        padding:10px 16px;
+        font-size:.9rem;
+    }
+
+    .tech-stack span{
+        font-size:12px;
+        padding:6px 12px;
+    }
+
+    /* CONTACT */
+    .contact-grid{
+        grid-template-columns:
+        repeat(2,1fr);
+        gap:15px;
+    }
+
+    .contact-card{
+        padding:25px 15px;
+        border-radius:18px;
+    }
+
+    .contact-icon{
+        width:60px;
+        height:60px;
+        margin-bottom:15px;
+    }
+
+    .contact-icon i{
+        font-size:28px;
+    }
+
+    .contact-card h3{
+        font-size:1rem;
+    }
+
+    .contact-card p{
+        font-size:.85rem;
+    }
+
+    .contact-card a{
+        width:100%;
+        font-size:.85rem;
+        padding:10px;
+    }
+
+    /* GENERAL CARD */
+    .card,
+    .glass-card{
+        padding:20px;
+    }
+
+    /* Firefly lebih ringan di mobile */
+    .firefly{
+        transform:scale(.7);
+        opacity:.5;
     }
 }
 
