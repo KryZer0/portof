@@ -114,11 +114,15 @@ nav{
 }
 
 #pre-typing{
+    font-weight: 800;
+    font-size: 3rem;
     color:#fff;
     margin:10px 0;
 }
 
 #typing{
+    font-weight: 600;
+    font-size: 3rem;
     color:#00d9ff;
     margin:10px 0;
 }
@@ -438,7 +442,7 @@ section{
     }
 
     #typing{
-        font-size:1.2rem;
+        font-size:2.5rem;
     }
 
     .description{

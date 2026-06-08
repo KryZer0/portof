@@ -34,13 +34,9 @@
                     Halo, saya
                 </p>
                 
-                <h1 class="title-hidden">Ahmad A - Web Developer & Android Developer</h1>
-                <p id="pre-typing">
-                    <span id="pretyping">I'm a</span>
-                    <span id="typing"></span>
-                </p>
+                <h2 class="title-hidden">Ahmad A - Web Developer & Android Developer</h2>
 
-                <h2 id="pre-typing"><div id="pretyping">I'm a</div><span id="typing"></span></h2>
+                <h3 id="pre-typing"><div id="pretyping">I'm a</div><span id="typing"></span></h3>
 
                 <p class="description reveal" id="description">Web Developer, Android Developer,dan Pengajar TIK yang berfokus pada pengembangan sistem informasi, e-learning, serta teknologi pendidikan.</p>
 

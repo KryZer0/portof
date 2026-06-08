@@ -45,7 +45,7 @@
 
     <meta property="og:url"
         content="{{ url()->current() }}">
-        
+
     <meta property="og:image:width"
         content="1200">
 
