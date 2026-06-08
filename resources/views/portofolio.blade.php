@@ -34,7 +34,9 @@
                     Halo, saya
                 </p>
                 
-                <h2 class="title-hidden">Ahmad A - Web Developer & Android Developer</h2>
+                <h1 class="title-hidden">Ahmad A - Web Developer & Android Developer</h1>
+
+                <h2 class="title" id="title">Ahmad</h2>
 
                 <h3 id="pre-typing"><div id="pretyping">I'm a</div><span id="typing"></span></h3>
 
