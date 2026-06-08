@@ -377,3 +377,235 @@ document.querySelectorAll('.contact-card')
     });
 
 });
+
+const container =
+    document.getElementById(
+        'fireflies-container'
+    );
+
+const fireflies = [];
+const TOTAL = 50;
+
+const mouse = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2
+};
+
+let interacting = false;
+let idleAngle = 0;
+
+let lastMoveTime =
+    Date.now();
+
+window.addEventListener(
+    'mousemove',
+    (e) => {
+
+        mouse.x =
+            e.clientX;
+
+        mouse.y =
+            e.clientY;
+
+        interacting =
+            true;
+    }
+);
+
+// Mobile
+window.addEventListener(
+    'touchmove',
+    (e) => {
+
+        const touch =
+            e.touches[0];
+
+        mouse.x =
+            touch.clientX;
+
+        mouse.y =
+            touch.clientY;
+
+        interacting =
+            true;
+    },
+    { passive: true }
+);
+
+// Saat user menyentuh layar
+window.addEventListener(
+    'touchstart',
+    (e) => {
+
+        const touch =
+            e.touches[0];
+
+        mouse.x =
+            touch.clientX;
+
+        mouse.y =
+            touch.clientY;
+
+        interacting =
+            true;
+    }
+);
+
+// Saat user berhenti menyentuh
+window.addEventListener(
+    'touchend',
+    () => {
+
+        interacting =
+            false;
+    }
+);
+
+// Create fireflies
+for(let i = 0; i < TOTAL; i++){
+
+    const dot =
+        document.createElement(
+            'div'
+        );
+
+    dot.className =
+        'firefly';
+
+    container.appendChild(
+        dot
+    );
+
+    fireflies.push({
+
+        el: dot,
+
+        x:
+            mouse.x +
+            (Math.random() * 120 - 60),
+
+        y:
+            mouse.y +
+            (Math.random() * 120 - 60),
+
+        vx: 0,
+        vy: 0,
+
+        // lebih lambat follow
+        speed:
+            0.003 +
+            Math.random() * 0.008,
+
+        // random orbit
+        angle:
+            Math.random() *
+            Math.PI * 2,
+
+        orbitRadius:
+            10 +
+            Math.random() * 5,
+
+        wanderSpeed:
+            0.003 +
+            Math.random() * 0.006
+    });
+
+}
+
+// Glow blinking
+fireflies.forEach(fly => {
+
+    anime.animate(fly.el, {
+
+        opacity: [
+            0.25,
+            1
+        ],
+
+        duration:
+            800 +
+            Math.random() * 1200,
+
+        alternate: true,
+        loop: true,
+        ease: 'inOutSine'
+    });
+
+});
+
+function update(){
+
+    // Mouse dianggap diam
+    if(Date.now() - lastMoveTime
+        > 150){
+
+        isMouseMoving =
+            false;
+    }
+
+    fireflies.forEach(
+        (fly) => {
+
+        // random movement
+        fly.angle +=
+            fly.wanderSpeed;
+
+        // swarm center
+        const centerX =
+            mouse.x;
+
+        const centerY =
+            mouse.y;
+
+        // random orbit
+        const wanderX =
+            Math.cos(
+                fly.angle
+            ) *
+            fly.orbitRadius;
+
+        const wanderY =
+            Math.sin(
+                fly.angle
+            ) *
+            fly.orbitRadius;
+
+        // target area
+        const targetX =
+            centerX +
+            wanderX;
+
+        const targetY =
+            centerY +
+            wanderY;
+
+        // smoother + slower follow
+        fly.vx +=
+            (targetX - fly.x)
+            * fly.speed;
+
+        fly.vy +=
+            (targetY - fly.y)
+            * fly.speed;
+
+        // stronger damping
+        fly.vx *= 0.94 / 1.3;
+        fly.vy *= 0.94 / 1.3;
+
+        fly.x += fly.vx;
+        fly.y += fly.vy;
+
+        fly.el.style.transform =
+            `translate(
+                ${fly.x}px,
+                ${fly.y}px
+            )`;
+
+    });
+
+    requestAnimationFrame(
+        update
+    );
+}
+
+update();

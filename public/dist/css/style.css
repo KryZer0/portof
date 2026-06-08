@@ -408,3 +408,24 @@ section{
         display:none;
     }
 }
+
+#fireflies-container{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.firefly{
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,180,.95);
+    box-shadow:
+        0 0 10px rgba(255,255,180,.8),
+        0 0 20px rgba(255,230,120,.5);
+    pointer-events: none;
+    will-change: transform;
+}

@@ -13,7 +13,7 @@
 
     {{-- CSS --}}
     <link rel="stylesheet"
-        href="{{ asset('dist/css/style.css') }}">
+        href="{{ asset('dist/css/style.min.css') }}">
 
     {{-- Google Fonts --}}
     <link rel="preconnect"
@@ -32,9 +32,10 @@
 
     {{-- Anime.js --}}
     <script src="https://cdn.jsdelivr.net/npm/animejs/dist/bundles/anime.umd.min.js"></script>
+    <link rel="icon" type="image/png" href="{{ asset('dist/imgs/favicon.png') }}">
 
     <script defer
-        src="{{ asset('dist/js/script.js') }}">
+        src="{{ asset('dist/js/script.min.js') }}">
     </script>
 
 </head>

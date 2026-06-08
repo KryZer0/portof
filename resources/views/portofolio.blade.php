@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="bg-glow"></div>
-
+<div id="fireflies-container"></div>
     <nav id="navbar">
         <div class="container nav-container">
 
