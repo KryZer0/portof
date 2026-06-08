@@ -34,7 +34,11 @@
                     Halo, saya
                 </p>
                 
-                <h1 class="title" id="title">Ahmad</h1>
+                <h1 class="title-hidden">Ahmad A - Web Developer & Android Developer</h1>
+                <p id="pre-typing">
+                    <span id="pretyping">I'm a</span>
+                    <span id="typing"></span>
+                </p>
 
                 <h2 id="pre-typing"><div id="pretyping">I'm a</div><span id="typing"></span></h2>
 
@@ -55,7 +59,7 @@
             <div class="hero-image">
                 <div class="image-wrapper">
                     <img src="{{ asset ('dist/imgs/self.webp') }}"
-                        alt="Ahmad A">
+                        alt="Ahmad A Web Developer">
                 </div>
 
             </div>
@@ -72,10 +76,11 @@
             </h2>
             <div class="glass-card reveal">
                 <p class="scramble-text">
-                    Saya memiliki pengalaman dalam
-                    pengembangan aplikasi berbasis
-                    Laravel, Android Java, MySQL,
-                    serta pengajaran Teknologi Informasi.
+                    Saya adalah Web Developer dan Android Developer
+                    yang berfokus pada pengembangan sistem informasi,
+                    e-learning, aplikasi absensi berbasis QR Code,
+                    dan teknologi pendidikan menggunakan Laravel,
+                    Java Android, serta MySQL.
                 </p>
 
                 <p class="scramble-text">
@@ -149,7 +154,8 @@
                 <div class="project-expand">
 
                     <img src="{{ asset('dist/imgs/siakad.webp') }}"
-                        alt="SIAKAD">
+                        loading="lazy"
+                        alt="Sistem Informasi Akademik Laravel SIAKAD">
 
                     <div class="project-overlay">
 
@@ -183,7 +189,8 @@
                 <div class="project-expand">
 
                     <img src="{{ asset('dist/imgs/halaman_login.webp') }}"
-                        alt="Attendance">
+                        loading="lazy"
+                        alt="Aplikasi absensi QR Code Laravel Android">
 
                     <div class="project-overlay">
 
@@ -207,7 +214,8 @@
                         </div>
 
                         <div class="project-buttons">
-                            <a href="https://github.com/kryzer0/qrAbsen" target="_blank">Github</a>
+                            <a href="https://github.com/kryzer0/qrAbsen" target="_blank"
+                                rel="noopener noreferrer">Github</a>
                         </div>
 
                     </div>
@@ -217,7 +225,8 @@
                 <div class="project-expand">
 
                     <img src="https://placehold.co/700x500"
-                        alt="E-Learning">
+                        loading="lazy"
+                        alt="Platform E-Learning berbasis Laravel">
 
                     <div class="project-overlay">
 
@@ -272,7 +281,8 @@
                         </div>
 
                         <div class="project-buttons">
-                            <a href="https://hrdrci-ritra.com" target="_blank">Preview</a>
+                            <a href="https://hrdrci-ritra.com" target="_blank"
+                                rel="noopener noreferrer">Preview</a>
                         </div>
 
                     </div>
@@ -282,7 +292,8 @@
                 <div class="project-expand">
 
                     <img src="dist/imgs/platformer.gif"
-                        alt="Java Game">
+                        loading="lazy"
+                        alt="Game platformer Java desktop">
 
                     <div class="project-overlay">
 
@@ -328,7 +339,8 @@
                     <p>
                         ahmad1412@gmail.com
                     </p>
-                    <a href="mailto:ahmad02001412@gmail.com">
+                    <a href="mailto:ahmad02001412@gmail.com"
+                        rel="noopener noreferrer">
                         Kirim Email
                     </a>
                 </div>
@@ -342,7 +354,8 @@
                         +62 812 xxxx xxxx
                     </p>
                     <a href="https://wa.me/6288213467882"
-                        target="_blank">
+                        target="_blank"
+                        rel="noopener noreferrer">
                         Chat WhatsApp
                     </a>
                 </div>
@@ -356,7 +369,8 @@
                         github.com/kryzer0
                     </p>
                     <a href="https://github.com/kryzer0"
-                        target="_blank">
+                        target="_blank"
+                        rel="noopener noreferrer">
                         Lihat Github
                     </a>
                 </div>
@@ -370,7 +384,8 @@
                         linkedin.com/in/Ahmad
                     </p>
                     <a href="#"
-                        target="_blank">
+                        target="_blank"
+                        rel="noopener noreferrer">
                         Lihat Profil
                     </a>
                 </div>
