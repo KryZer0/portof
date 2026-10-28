@@ -21,12 +21,19 @@ $galleries = [
             'to'      => 'dist/imgs/photoshop/project2/2.webp', // gambar kedua
             'caption' => 'Video Games Poster',
         ],
+        [
+            'type'    => 'image',
+            'src'     => 'dist/imgs/photoshop/project3/1.webp',
+            'to'      => 'dist/imgs/photoshop/project3/2.webp', // gambar kedua
+            'caption' => 'Retouching',
+        ],
     ],
   ],
   'vegas' => [
     'label' => 'Vegas Pro',
     'items' => [
-      ['type' => 'video', 'src' => 'dist/videos/vegas/project-1.mp4', 'poster' => 'dist/imgs/projects/vegas/project-1.jpg', 'caption' => 'Judul video 1'],
+      ['type' => 'video', 'src' => 'dist/imgs/vegas/1.webm', 'poster' => 'dist/imgs/photoshop/project2/1.webp', 'caption' => 'Dead Space'],
+      ['type' => 'video', 'src' => 'dist/imgs/vegas/2.webm', 'poster' => 'dist/imgs/photoshop/project3/1.webp', 'caption' => 'Retouch'],
     ],
   ],
 ];

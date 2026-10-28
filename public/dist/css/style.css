@@ -854,6 +854,26 @@ html.skill-modal-open {
   overflow: hidden;
 }
 
+#skill-dialog .modal-item video {
+  display: block;
+  width: 100%;
+  background: #000;
+  border-radius: 0.65rem;
+}
+
+/* VIDEO_FIT = 'fit': mengikuti rasio asli video */
+#skill-dialog[data-video-fit="fit"] .modal-item video {
+  height: auto;
+  aspect-ratio: var(--video-ratio, 16 / 9); /* diisi JS saat metadata termuat */
+  object-fit: contain;
+}
+
+/* VIDEO_FIT = 'box': layout sebelumnya */
+#skill-dialog[data-video-fit="box"] .modal-item video {
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+}
+
 #skill-dialog.is-ready .skill-card {
   overflow-y: auto;
   overscroll-behavior: contain;

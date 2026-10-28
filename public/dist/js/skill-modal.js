@@ -28,6 +28,11 @@ function initSkillModal() {
   const DURATION = reduceMotion ? 0 : 600;        // buka/tutup modal
   const MORPH_DURATION = reduceMotion ? 0 : 2000; // transisi diagonal gambar 1 <-> 2
 
+  // Tampilan video di galeri:
+  //   'fit' = mengikuti rasio asli video (tidak ada bar hitam berlebih)
+  //   'box' = layout sebelumnya (kotak 16:10 dengan latar hitam)
+  const VIDEO_FIT = 'fit';
+
   // Bentuk potongan diagonal (clip-path) dari kiri atas ke kanan bawah.
   // c = 0 -> belum terlihat, c = 2 -> terlihat penuh
   const clipFor = (c) => {
@@ -47,6 +52,7 @@ function initSkillModal() {
   const $dialog = document.createElement('dialog');
   $dialog.id = 'skill-dialog';
   $dialog.setAttribute('aria-label', 'Galeri project');
+  $dialog.dataset.videoFit = VIDEO_FIT;
   document.body.appendChild($dialog);
 
   const modalLayout = createLayout($dialog, {
@@ -134,11 +140,18 @@ function initSkillModal() {
       let media;
       if (item.type === 'video') {
         media = document.createElement('video');
+        media.loading = 'lazy';
         media.src = item.src;
         media.controls = true;
         media.preload = 'metadata';
         media.playsInline = true;
         if (item.poster) media.poster = item.poster;
+        // Simpan rasio asli video supaya mode 'fit' tidak melompat saat metadata termuat
+        media.addEventListener('loadedmetadata', () => {
+          if (media.videoWidth && media.videoHeight) {
+            media.style.setProperty('--video-ratio', `${media.videoWidth} / ${media.videoHeight}`);
+          }
+        });
       } else {
         const alt = item.caption || `${data.label} project`;
 
@@ -156,7 +169,6 @@ function initSkillModal() {
           base.className = 'modal-morph-base';
           base.src = item.src;
           base.alt = alt;
-          base.loading = 'lazy';
 
           const top = document.createElement('img');
           top.className = 'modal-morph-top';
