@@ -6,6 +6,7 @@
 
 html{
     scroll-behavior:smooth;
+    scrollbar-gutter: stable;
 }
 
 body{
@@ -612,4 +613,345 @@ section{
         0 0 20px rgba(255,230,120,.5);
     pointer-events: none;
     will-change: transform;
+}
+
+.photoshop-icon {
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .photoshop-icon {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .photoshop-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.skill-card-hint {
+    font-size: 11px;
+    opacity: 0.65;
+    margin-top: 5px;
+}
+
+/* skill-modal.css — taruh setelah stylesheet utama */
+
+/* Kartu asli yang sedang "terbuka" disembunyikan, clone-nya yang tampil di modal */
+.skill-card.is-open {
+  visibility: hidden;
+}
+
+html.skill-modal-open {
+  overflow: hidden;
+}
+
+/* ---------- Dialog (root layout) ---------- */
+#skill-dialog {
+  --overlay-alpha: 100%;
+  --modal-bg: #14161a;
+  --modal-border: rgba(255, 255, 255, 0.14);
+  --modal-text: #f2f4f8;
+  --modal-muted: #9aa3b2;
+
+  overflow: hidden;
+  display: flex; /* sengaja tetap flex agar animasi tutup tetap terlihat */
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 1rem;
+  border: none;
+  pointer-events: none;
+  background-color: color-mix(in srgb, #000, transparent var(--overlay-alpha));
+}
+
+#skill-dialog[open] {
+  --overlay-alpha: 40%;
+  pointer-events: auto;
+}
+
+#skill-dialog::backdrop {
+  background: transparent;
+}
+
+/* ---------- Panel (clone dari .skill-card) ---------- */
+#skill-dialog .skill-card {
+  position: relative;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  width: min(100%, 60rem);
+  max-height: 88dvh;
+  padding: 2rem;
+  overflow-y: auto;
+  text-align: left;
+  cursor: default;
+  color: var(--modal-text);
+  background: var(--modal-bg);
+  border: 1px solid var(--modal-border);
+  border-radius: 1rem;
+  /* matikan efek hover/transition bawaan .card supaya tidak bentrok dengan layout */
+  transition: none;
+  transform: none;
+  animation: none;
+}
+
+#skill-dialog[open] .skill-card {
+  visibility: visible;
+}
+
+#skill-dialog .skill-card .photoshop-icon {
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+}
+
+#skill-dialog .skill-card h3 {
+  margin: 0;
+  font-size: 1.75rem;
+  text-wrap: nowrap;
+  will-change: font-size;
+}
+
+#skill-dialog .skill-card-hint {
+  display: none;
+}
+
+/* ---------- Tombol tutup ---------- */
+#skill-dialog .modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--modal-text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--modal-border);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Bingkai lightbox: berisi dua gambar bertumpuk */
+#skill-dialog .modal-lightbox-frame {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 0.65rem;
+}
+#skill-dialog .modal-lightbox-frame img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: unset;
+}
+
+#skill-dialog .modal-close:hover,
+#skill-dialog .modal-close:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- Galeri ---------- */
+#skill-dialog .modal-body {
+  align-self: stretch;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--modal-border);
+}
+
+#skill-dialog .modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+#skill-dialog .modal-item {
+  margin: 0;
+}
+
+#skill-dialog .modal-morph {
+  position: relative;
+  border-radius: 0.65rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+#skill-dialog .modal-morph .modal-morph-base {
+  display: block;
+  width: 100%;
+  height: auto; /* tinggi mengikuti rasio asli gambar */
+}
+#skill-dialog .modal-morph .modal-morph-top {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* tidak dipotong / di-zoom */
+}
+#skill-dialog .modal-morph:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Gambar memakai rasio aslinya, tidak dipotong */
+#skill-dialog .modal-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.65rem;
+}
+
+/* Video tetap 16:10 */
+#skill-dialog .modal-item video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  background: #000;
+  border-radius: 0.65rem;
+}
+
+/* Kartu tidak dipaksa sama tinggi karena rasio gambar bisa berbeda */
+#skill-dialog .modal-grid {
+  align-items: start;
+}
+
+#skill-dialog .modal-item figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--modal-muted);
+}
+
+#skill-dialog .modal-empty {
+  margin: 0;
+  color: var(--modal-muted);
+}
+
+
+html.skill-modal-open {
+  overflow: hidden;
+}
+
+#skill-dialog.is-ready .skill-card {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#skill-dialog:not(.is-ready),
+#skill-dialog:not(.is-ready) * {
+  scrollbar-width: none;
+}
+#skill-dialog:not(.is-ready) *::-webkit-scrollbar {
+  display: none;
+}
+
+/* Gambar di galeri bisa diklik */
+#skill-dialog .modal-item img {
+  cursor: zoom-in;
+}
+
+/* Lightbox: gambar tampil 70% ukuran layar */
+#skill-dialog .modal-lightbox {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.75);
+  cursor: zoom-out;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+
+#skill-dialog .modal-lightbox.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
+}
+
+#skill-dialog .modal-lightbox img {
+  width: 70vw;
+  height: 70vh;
+  object-fit: contain;
+  border-radius: 0.75rem;
+  transform: scale(0.92);
+  transition: transform 0.25s ease;
+}
+
+#skill-dialog .modal-lightbox.is-visible img {
+  transform: scale(1);
+}
+
+/* Gambar di galeri bisa diklik */
+#skill-dialog .modal-item img {
+  cursor: zoom-in;
+}
+#skill-dialog .modal-item img.is-zoomed {
+  visibility: hidden; /* sementara diganti gambar yang "terbang" */
+}
+
+/* Lightbox */
+#skill-dialog .modal-lightbox {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  visibility: hidden;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.4s ease;
+}
+#skill-dialog .modal-lightbox.is-visible {
+  visibility: visible;
+  pointer-events: auto;
+  cursor: zoom-out;
+}
+#skill-dialog .modal-lightbox.is-dim {
+  background-color: rgba(0, 0, 0, 0.78);
+}
+#skill-dialog .modal-lightbox img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: cover;
+  border-radius: 0.65rem;
+}
+
+/* Di layar kecil, 70% terlalu mungil */
+@media (max-width: 600px) {
+  #skill-dialog .modal-lightbox img {
+    width: 92vw;
+    height: 80vh;
+  }
+}
+
+@media (max-width: 600px) {
+  #skill-dialog .skill-card {
+    padding: 1.25rem;
+  }
+  #skill-dialog .modal-grid {
+    grid-template-columns: 1fr;
+  }
 }

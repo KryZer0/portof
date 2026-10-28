@@ -86,9 +86,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     {{-- CSS --}}
     <link rel="stylesheet"
-        href="{{ asset('dist/css/style.min.css') }}">
+        href="{{ asset('dist/css/style.css') }}">
 
     {{-- Font Awesome --}}
     <link rel="stylesheet"
@@ -123,7 +126,7 @@
 
     {{-- Main JS --}}
     <script defer
-        src="{{ asset('dist/js/script.min.js') }}">
+        src="{{ asset('dist/js/script.js') }}">
     </script>
 
 </head>
@@ -134,4 +137,8 @@
 
 </body>
 
+<script>
+  window.SKILL_GALLERIES = <?= json_encode($galleries, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) ?>;
+</script>
+<script type="module" src="dist/js/skill-modal.js"></script>
 </html>

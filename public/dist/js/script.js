@@ -378,234 +378,234 @@ document.querySelectorAll('.contact-card')
 
 });
 
-const container =
-    document.getElementById(
-        'fireflies-container'
-    );
+// const container =
+//     document.getElementById(
+//         'fireflies-container'
+//     );
 
-const fireflies = [];
-const TOTAL = 50;
+// const fireflies = [];
+// const TOTAL = 50;
 
-const mouse = {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2
-};
+// const mouse = {
+//     x: window.innerWidth / 2,
+//     y: window.innerHeight / 2
+// };
 
-let interacting = false;
-let idleAngle = 0;
+// let interacting = false;
+// let idleAngle = 0;
 
-let lastMoveTime =
-    Date.now();
+// let lastMoveTime =
+//     Date.now();
 
-window.addEventListener(
-    'mousemove',
-    (e) => {
+// window.addEventListener(
+//     'mousemove',
+//     (e) => {
 
-        mouse.x =
-            e.clientX;
+//         mouse.x =
+//             e.clientX;
 
-        mouse.y =
-            e.clientY;
+//         mouse.y =
+//             e.clientY;
 
-        interacting =
-            true;
-    }
-);
+//         interacting =
+//             true;
+//     }
+// );
 
-// Mobile
-window.addEventListener(
-    'touchmove',
-    (e) => {
+// // Mobile
+// window.addEventListener(
+//     'touchmove',
+//     (e) => {
 
-        const touch =
-            e.touches[0];
+//         const touch =
+//             e.touches[0];
 
-        mouse.x =
-            touch.clientX;
+//         mouse.x =
+//             touch.clientX;
 
-        mouse.y =
-            touch.clientY;
+//         mouse.y =
+//             touch.clientY;
 
-        interacting =
-            true;
-    },
-    { passive: true }
-);
+//         interacting =
+//             true;
+//     },
+//     { passive: true }
+// );
 
-// Saat user menyentuh layar
-window.addEventListener(
-    'touchstart',
-    (e) => {
+// // Saat user menyentuh layar
+// window.addEventListener(
+//     'touchstart',
+//     (e) => {
 
-        const touch =
-            e.touches[0];
+//         const touch =
+//             e.touches[0];
 
-        mouse.x =
-            touch.clientX;
+//         mouse.x =
+//             touch.clientX;
 
-        mouse.y =
-            touch.clientY;
+//         mouse.y =
+//             touch.clientY;
 
-        interacting =
-            true;
-    }
-);
+//         interacting =
+//             true;
+//     }
+// );
 
-// Saat user berhenti menyentuh
-window.addEventListener(
-    'touchend',
-    () => {
+// // Saat user berhenti menyentuh
+// window.addEventListener(
+//     'touchend',
+//     () => {
 
-        interacting =
-            false;
-    }
-);
+//         interacting =
+//             false;
+//     }
+// );
 
-// Create fireflies
-for(let i = 0; i < TOTAL; i++){
+// // Create fireflies
+// for(let i = 0; i < TOTAL; i++){
 
-    const dot =
-        document.createElement(
-            'div'
-        );
+//     const dot =
+//         document.createElement(
+//             'div'
+//         );
 
-    dot.className =
-        'firefly';
+//     dot.className =
+//         'firefly';
 
-    container.appendChild(
-        dot
-    );
+//     container.appendChild(
+//         dot
+//     );
 
-    fireflies.push({
+//     fireflies.push({
 
-        el: dot,
+//         el: dot,
 
-        x:
-            mouse.x +
-            (Math.random() * 120 - 60),
+//         x:
+//             mouse.x +
+//             (Math.random() * 120 - 60),
 
-        y:
-            mouse.y +
-            (Math.random() * 120 - 60),
+//         y:
+//             mouse.y +
+//             (Math.random() * 120 - 60),
 
-        vx: 0,
-        vy: 0,
+//         vx: 0,
+//         vy: 0,
 
-        // lebih lambat follow
-        speed:
-            0.003 +
-            Math.random() * 0.008,
+//         // lebih lambat follow
+//         speed:
+//             0.003 +
+//             Math.random() * 0.008,
 
-        // random orbit
-        angle:
-            Math.random() *
-            Math.PI * 2,
+//         // random orbit
+//         angle:
+//             Math.random() *
+//             Math.PI * 2,
 
-        orbitRadius:
-            10 +
-            Math.random() * 5,
+//         orbitRadius:
+//             10 +
+//             Math.random() * 5,
 
-        wanderSpeed:
-            0.003 +
-            Math.random() * 0.006
-    });
+//         wanderSpeed:
+//             0.003 +
+//             Math.random() * 0.006
+//     });
 
-}
+// }
 
-// Glow blinking
-fireflies.forEach(fly => {
+// // Glow blinking
+// fireflies.forEach(fly => {
 
-    anime.animate(fly.el, {
+//     anime.animate(fly.el, {
 
-        opacity: [
-            0.25,
-            1
-        ],
+//         opacity: [
+//             0.25,
+//             1
+//         ],
 
-        duration:
-            800 +
-            Math.random() * 1200,
+//         duration:
+//             800 +
+//             Math.random() * 1200,
 
-        alternate: true,
-        loop: true,
-        ease: 'inOutSine'
-    });
+//         alternate: true,
+//         loop: true,
+//         ease: 'inOutSine'
+//     });
 
-});
+// });
 
-function update(){
+// function update(){
 
-    // Mouse dianggap diam
-    if(Date.now() - lastMoveTime
-        > 150){
+//     // Mouse dianggap diam
+//     if(Date.now() - lastMoveTime
+//         > 150){
 
-        isMouseMoving =
-            false;
-    }
+//         isMouseMoving =
+//             false;
+//     }
 
-    fireflies.forEach(
-        (fly) => {
+//     fireflies.forEach(
+//         (fly) => {
 
-        // random movement
-        fly.angle +=
-            fly.wanderSpeed;
+//         // random movement
+//         fly.angle +=
+//             fly.wanderSpeed;
 
-        // swarm center
-        const centerX =
-            mouse.x;
+//         // swarm center
+//         const centerX =
+//             mouse.x;
 
-        const centerY =
-            mouse.y;
+//         const centerY =
+//             mouse.y;
 
-        // random orbit
-        const wanderX =
-            Math.cos(
-                fly.angle
-            ) *
-            fly.orbitRadius;
+//         // random orbit
+//         const wanderX =
+//             Math.cos(
+//                 fly.angle
+//             ) *
+//             fly.orbitRadius;
 
-        const wanderY =
-            Math.sin(
-                fly.angle
-            ) *
-            fly.orbitRadius;
+//         const wanderY =
+//             Math.sin(
+//                 fly.angle
+//             ) *
+//             fly.orbitRadius;
 
-        // target area
-        const targetX =
-            centerX +
-            wanderX;
+//         // target area
+//         const targetX =
+//             centerX +
+//             wanderX;
 
-        const targetY =
-            centerY +
-            wanderY;
+//         const targetY =
+//             centerY +
+//             wanderY;
 
-        // smoother + slower follow
-        fly.vx +=
-            (targetX - fly.x)
-            * fly.speed;
+//         // smoother + slower follow
+//         fly.vx +=
+//             (targetX - fly.x)
+//             * fly.speed;
 
-        fly.vy +=
-            (targetY - fly.y)
-            * fly.speed;
+//         fly.vy +=
+//             (targetY - fly.y)
+//             * fly.speed;
 
-        // stronger damping
-        fly.vx *= 0.94 / 1.3;
-        fly.vy *= 0.94 / 1.3;
+//         // stronger damping
+//         fly.vx *= 0.94 / 1.3;
+//         fly.vy *= 0.94 / 1.3;
 
-        fly.x += fly.vx;
-        fly.y += fly.vy;
+//         fly.x += fly.vx;
+//         fly.y += fly.vy;
 
-        fly.el.style.transform =
-            `translate(
-                ${fly.x}px,
-                ${fly.y}px
-            )`;
+//         fly.el.style.transform =
+//             `translate(
+//                 ${fly.x}px,
+//                 ${fly.y}px
+//             )`;
 
-    });
+//     });
 
-    requestAnimationFrame(
-        update
-    );
-}
+//     requestAnimationFrame(
+//         update
+//     );
+// }
 
-update();
+// update();

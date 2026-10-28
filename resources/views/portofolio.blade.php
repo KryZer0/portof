@@ -3,9 +3,36 @@
 @section('title', 'Portfolio | Ahmad A')
 
 @section('content')
-
+<?php
+// Opsional: data galeri dari PHP (bisa dari database atau scan folder)
+$galleries = [
+  'photoshop' => [
+    'label' => 'Photoshop',
+    'items' => [
+        [
+            'type'    => 'image',
+            'src'     => 'dist/imgs/photoshop/project1/1.webp',
+            'to'      => 'dist/imgs/photoshop/project1/2.webp',
+            'caption' => 'Silly Edit',
+        ],
+        [
+            'type'    => 'image',
+            'src'     => 'dist/imgs/photoshop/project2/1.webp',
+            'to'      => 'dist/imgs/photoshop/project2/2.webp', // gambar kedua
+            'caption' => 'Video Games Poster',
+        ],
+    ],
+  ],
+  'vegas' => [
+    'label' => 'Vegas Pro',
+    'items' => [
+      ['type' => 'video', 'src' => 'dist/videos/vegas/project-1.mp4', 'poster' => 'dist/imgs/projects/vegas/project-1.jpg', 'caption' => 'Judul video 1'],
+    ],
+  ],
+];
+?>
 <div class="bg-glow"></div>
-<div id="fireflies-container"></div>
+{{-- <div id="fireflies-container"></div> --}}
     <nav id="navbar">
         <div class="container nav-container">
 
@@ -134,6 +161,34 @@
                     <h3>Excel</h3>
                 </div>
 
+                <!-- Photoshop Skill -->
+                <div class="card skill-card skill-card-clickable"
+                    role="button"
+                    tabindex="0"
+                    data-gallery="photoshop">
+
+                    <img src="dist/imgs/ps.svg"
+                        alt="Adobe Photoshop"
+                        class="photoshop-icon">
+
+                    <h3>Photoshop</h3>
+                    <span class="skill-card-hint">View Projects</span>
+                </div>
+
+                <!-- Vegas Pro Skill -->
+                <div class="card skill-card skill-card-clickable"
+                    role="button"
+                    tabindex="0"
+                    data-gallery="vegas">
+
+                    <img src="dist/imgs/vegas.svg"
+                        alt="VEGAS Pro"
+                        class="photoshop-icon">
+
+                    <h3>Vegas Pro</h3>
+                    <span class="skill-card-hint">View Projects</span>
+                </div>
+
             </div>
         </div>
     </section>
@@ -199,7 +254,7 @@
                         <h3>QR Attendance</h3>
 
                         <p>
-                            Sistem absensi karyawan
+                            Sistem absensi Siswa
                             menggunakan QR Code,
                             export Excel/PDF,
                             dan monitoring realtime.
@@ -390,5 +445,4 @@
             </div>
         </div>
     </section>
-
 @endsection
