@@ -65,6 +65,92 @@ function initSkillModal() {
   let readyTimer = null;
 
   /* ------------------------------------------------------------------ */
+  /* Video streaming adaptif (HLS)                                       */
+  /* ------------------------------------------------------------------ */
+  // hls.js dimuat hanya saat ada video HLS yang dibuka
+  const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1.5.17/+esm';
+  let hlsLoader = null;
+  const loadHls = () => (hlsLoader ??= import(HLS_URL).then((m) => m.default));
+  let hlsInstances = [];
+
+  function destroyHls() {
+    hlsInstances.forEach((h) => h.destroy());
+    hlsInstances = [];
+  }
+
+  // Ubah ke false kalau sudah tidak perlu melihat log HLS di Console browser (F12)
+  const DEBUG_HLS = true;
+  const hlsLog = (...args) => { if (DEBUG_HLS) console.log('[HLS]', ...args); };
+
+  function attachVideoSource(media, item) {
+    const fallback = (why) => {
+      hlsLog('fallback ke mp4 karena:', why, '| src =', item.src ?? '(tidak ada)');
+      if (item.src) media.src = item.src;
+    };
+
+    if (!item.hls) { fallback('item tidak punya hls'); return; }
+
+    const useNative = () => {
+      if (!media.canPlayType('application/vnd.apple.mpegurl')) return false;
+      hlsLog('memakai HLS native browser');
+      media.src = item.hls;
+      return true;
+    };
+
+    media.addEventListener('error', () => {
+      hlsLog('error pada elemen video:', media.error?.code, media.error?.message);
+    });
+
+    loadHls()
+      .then((Hls) => {
+        // hls.js diprioritaskan: tidak semua browser yang mengaku bisa HLS benar-benar lancar
+        if (!Hls?.isSupported()) {
+          if (!useNative()) fallback('browser tidak mendukung hls.js maupun HLS native');
+          return;
+        }
+        hlsLog('memakai hls.js', Hls.version, '->', item.hls);
+
+        // autoStartLoad:false -> hanya manifest yang diunduh; segmen video baru
+        // diunduh saat pengguna menekan play atau menggeser timeline
+        const hls = new Hls({ autoStartLoad: false, capLevelToPlayerSize: true });
+        hlsInstances.push(hls);
+
+        let parsed = false;
+        let wantStart = false;
+        const tryStart = () => {
+          if (parsed && wantStart) {
+            wantStart = false;
+            hlsLog('mulai mengunduh segmen video');
+            hls.startLoad();
+          }
+        };
+
+        hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
+          hlsLog('manifest terbaca, kualitas:', data.levels.map((l) => `${l.width}x${l.height}`).join(', '));
+          const lv = data.levels.find((l) => l.width && l.height);
+          if (lv) media.style.setProperty('--video-ratio', `${lv.width} / ${lv.height}`);
+          parsed = true;
+          tryStart(); // pengguna mungkin sudah menekan play sebelum manifest selesai
+        });
+        hls.on(Hls.Events.ERROR, (_, err) => {
+          console.warn('[HLS] error:', err.type, err.details, err.fatal ? '(FATAL)' : '', err.response?.code ?? '', err.url ?? '');
+          if (err.fatal) { hls.destroy(); fallback(`${err.type} / ${err.details}`); }
+        });
+
+        const onUser = () => { wantStart = true; tryStart(); };
+        media.addEventListener('play', onUser, { once: true });
+        media.addEventListener('seeking', onUser, { once: true });
+
+        hls.loadSource(item.hls);
+        hls.attachMedia(media);
+      })
+      .catch((e) => {
+        hlsLog('hls.js gagal dimuat dari CDN:', e);
+        if (!useNative()) fallback('hls.js gagal dimuat');
+      });
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Transisi diagonal di tempat (tanpa zoom, rasio gambar tetap)        */
   /* ------------------------------------------------------------------ */
   // state per gambar: { showing: 'a' | 'b', busy: boolean, anim }
@@ -140,12 +226,11 @@ function initSkillModal() {
       let media;
       if (item.type === 'video') {
         media = document.createElement('video');
-        media.loading = 'lazy';
-        media.src = item.src;
         media.controls = true;
         media.preload = 'metadata';
         media.playsInline = true;
         if (item.poster) media.poster = item.poster;
+        attachVideoSource(media, item); // HLS kalau ada item.hls, kalau tidak pakai item.src
         // Simpan rasio asli video supaya mode 'fit' tidak melompat saat metadata termuat
         media.addEventListener('loadedmetadata', () => {
           if (media.videoWidth && media.videoHeight) {
@@ -221,6 +306,7 @@ function initSkillModal() {
     $clone.prepend($close);
     $clone.appendChild(buildBody(card.dataset.gallery));
 
+    destroyHls(); // buang instance HLS dari modal sebelumnya
     $dialog.innerHTML = '';
     $dialog.appendChild($clone);
 
@@ -244,6 +330,7 @@ function initSkillModal() {
     clearTimeout(readyTimer);
     $dialog.classList.remove('is-ready');
     $dialog.querySelectorAll('video').forEach((v) => v.pause());
+    destroyHls(); // hentikan unduhan segmen saat modal ditutup
 
     modalLayout.update(() => {
       $dialog.close();

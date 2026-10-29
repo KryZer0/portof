@@ -32,8 +32,20 @@ $galleries = [
   'vegas' => [
     'label' => 'Vegas Pro',
     'items' => [
-      ['type' => 'video', 'src' => 'dist/imgs/vegas/1.webm', 'poster' => 'dist/imgs/photoshop/project2/1.webp', 'caption' => 'Dead Space'],
-      ['type' => 'video', 'src' => 'dist/imgs/vegas/2.webm', 'poster' => 'dist/imgs/photoshop/project3/1.webp', 'caption' => 'Retouch'],
+      [
+        'type' => 'video',
+        'hls'     => 'dist/imgs/vegas/1/master.m3u8',
+        'src' => 'dist/imgs/vegas/1.webm',
+        'poster' => 'dist/imgs/photoshop/project2/1.webp',
+        'caption' => 'Dead Space'
+        ],
+      [
+        'type' => 'video',
+        'hls'     => 'dist/imgs/vegas/2/master.m3u8',
+        'src' => 'dist/imgs/vegas/2.webm',
+        'poster' => 'dist/imgs/photoshop/project3/1.webp',
+        'caption' => 'Retouch'
+      ],
     ],
   ],
 ];
