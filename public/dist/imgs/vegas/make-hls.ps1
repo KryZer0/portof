@@ -1,10 +1,3 @@
-# Konversi video MP4 menjadi HLS adaptif (360p / 720p / 1080p) untuk Windows
-# Pemakaian (PowerShell):
-#   .\make-hls.ps1 vegas-1.mp4 dist\videos\vegas\project-1
-# Hasil: <folder-output>\master.m3u8  (pakai file ini di data 'hls')
-#
-# Syarat: ffmpeg dan ffprobe sudah terpasang dan ada di PATH
-#   (cek dengan:  ffmpeg -version)
 param(
   [Parameter(Mandatory = $true, Position = 0)][string]$InputFile,
   [Parameter(Mandatory = $true, Position = 1)][string]$OutDir

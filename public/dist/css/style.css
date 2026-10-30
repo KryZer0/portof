@@ -638,10 +638,18 @@ section{
     }
 }
 
+.skill-card-clickable {
+    cursor: pointer;
+}
+
 .skill-card-hint {
     font-size: 11px;
     opacity: 0.65;
     margin-top: 5px;
+}
+
+.skill-card-hint:hover {
+    color: #00d9ff;
 }
 
 /* skill-modal.css — taruh setelah stylesheet utama */

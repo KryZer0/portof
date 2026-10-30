@@ -26,22 +26,16 @@ if (cards.length) initSkillModal();
 function initSkillModal() {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const DURATION = reduceMotion ? 0 : 600;        // buka/tutup modal
-  const MORPH_DURATION = reduceMotion ? 0 : 2000; // transisi diagonal gambar 1 <-> 2
+  const MORPH_DURATION = reduceMotion ? 0 : 1500; // transisi diagonal gambar 1 <-> 2
 
-  // Tampilan video di galeri:
-  //   'fit' = mengikuti rasio asli video (tidak ada bar hitam berlebih)
-  //   'box' = layout sebelumnya (kotak 16:10 dengan latar hitam)
   const VIDEO_FIT = 'fit';
 
-  // Bentuk potongan diagonal (clip-path) dari kiri atas ke kanan bawah.
-  // c = 0 -> belum terlihat, c = 2 -> terlihat penuh
   const clipFor = (c) => {
     const a = Math.min(c, 1) * 100;
     const b = Math.max(c - 1, 0) * 100;
     return `polygon(0% 0%, ${a}% 0%, ${a}% ${b}%, ${b}% ${a}%, 0% ${a}%)`;
   };
 
-  // Layout id otomatis supaya kartu, ikon, dan judul "terbang" mulus ke modal
   cards.forEach((card) => {
     const key = card.dataset.gallery;
     card.dataset.layoutId = `skill-${key}`;
@@ -64,10 +58,6 @@ function initSkillModal() {
   let activeCard = null;
   let readyTimer = null;
 
-  /* ------------------------------------------------------------------ */
-  /* Video streaming adaptif (HLS)                                       */
-  /* ------------------------------------------------------------------ */
-  // hls.js dimuat hanya saat ada video HLS yang dibuka
   const HLS_URL = 'https://cdn.jsdelivr.net/npm/hls.js@1.5.17/+esm';
   let hlsLoader = null;
   const loadHls = () => (hlsLoader ??= import(HLS_URL).then((m) => m.default));
@@ -78,8 +68,7 @@ function initSkillModal() {
     hlsInstances = [];
   }
 
-  // Ubah ke false kalau sudah tidak perlu melihat log HLS di Console browser (F12)
-  const DEBUG_HLS = true;
+  const DEBUG_HLS = false;
   const hlsLog = (...args) => { if (DEBUG_HLS) console.log('[HLS]', ...args); };
 
   function attachVideoSource(media, item) {
@@ -103,15 +92,12 @@ function initSkillModal() {
 
     loadHls()
       .then((Hls) => {
-        // hls.js diprioritaskan: tidak semua browser yang mengaku bisa HLS benar-benar lancar
         if (!Hls?.isSupported()) {
           if (!useNative()) fallback('browser tidak mendukung hls.js maupun HLS native');
           return;
         }
         hlsLog('memakai hls.js', Hls.version, '->', item.hls);
 
-        // autoStartLoad:false -> hanya manifest yang diunduh; segmen video baru
-        // diunduh saat pengguna menekan play atau menggeser timeline
         const hls = new Hls({ autoStartLoad: false, capLevelToPlayerSize: true });
         hlsInstances.push(hls);
 
@@ -130,7 +116,7 @@ function initSkillModal() {
           const lv = data.levels.find((l) => l.width && l.height);
           if (lv) media.style.setProperty('--video-ratio', `${lv.width} / ${lv.height}`);
           parsed = true;
-          tryStart(); // pengguna mungkin sudah menekan play sebelum manifest selesai
+          tryStart();
         });
         hls.on(Hls.Events.ERROR, (_, err) => {
           console.warn('[HLS] error:', err.type, err.details, err.fatal ? '(FATAL)' : '', err.response?.code ?? '', err.url ?? '');
@@ -150,10 +136,6 @@ function initSkillModal() {
       });
   }
 
-  /* ------------------------------------------------------------------ */
-  /* Transisi diagonal di tempat (tanpa zoom, rasio gambar tetap)        */
-  /* ------------------------------------------------------------------ */
-  // state per gambar: { showing: 'a' | 'b', busy: boolean, anim }
   const morphStates = new WeakMap();
 
   function toggleMorph(wrap) {
@@ -177,7 +159,6 @@ function initSkillModal() {
         st.showing = nextKey;
         st.busy = false;
       };
-      // tunggu gambar dasar siap supaya tidak berkedip
       if (base.decode) base.decode().catch(() => {}).finally(reset);
       else reset();
     };
@@ -203,9 +184,6 @@ function initSkillModal() {
     else start();
   }
 
-  /* ------------------------------------------------------------------ */
-  /* Isi galeri                                                          */
-  /* ------------------------------------------------------------------ */
   function buildBody(key) {
     const data = GALLERIES[key];
     const body = document.createElement('div');
@@ -230,8 +208,7 @@ function initSkillModal() {
         media.preload = 'metadata';
         media.playsInline = true;
         if (item.poster) media.poster = item.poster;
-        attachVideoSource(media, item); // HLS kalau ada item.hls, kalau tidak pakai item.src
-        // Simpan rasio asli video supaya mode 'fit' tidak melompat saat metadata termuat
+        attachVideoSource(media, item);
         media.addEventListener('loadedmetadata', () => {
           if (media.videoWidth && media.videoHeight) {
             media.style.setProperty('--video-ratio', `${media.videoWidth} / ${media.videoHeight}`);
@@ -241,7 +218,6 @@ function initSkillModal() {
         const alt = item.caption || `${data.label} project`;
 
         if (item.to) {
-          // Dua gambar ditumpuk: dasar (terlihat) + atas (disingkap diagonal saat ditekan)
           media = document.createElement('div');
           media.className = 'modal-morph';
           media.dataset.srcA = item.src;
@@ -284,9 +260,6 @@ function initSkillModal() {
     return body;
   }
 
-  /* ------------------------------------------------------------------ */
-  /* Buka / tutup modal                                                  */
-  /* ------------------------------------------------------------------ */
   function openModal(card) {
     if ($dialog.open) return;
     activeCard = card;
@@ -341,9 +314,6 @@ function initSkillModal() {
     activeCard = null;
   }
 
-  /* ------------------------------------------------------------------ */
-  /* Event                                                               */
-  /* ------------------------------------------------------------------ */
   cards.forEach((card) => {
     card.addEventListener('click', () => openModal(card));
     card.addEventListener('keydown', (e) => {
@@ -354,21 +324,17 @@ function initSkillModal() {
     });
   });
 
-  // Satu handler klik saja (jangan dobel)
   $dialog.addEventListener('click', (e) => {
-    // Klik gambar bertransisi: ganti ke gambar lainnya secara diagonal
     const morph = e.target.closest('.modal-morph');
     if (morph) {
       toggleMorph(morph);
       return;
     }
-    // Klik di luar panel atau tombol X: tutup modal
     const insidePanel = e.target.closest('.skill-card');
     const isCloseBtn = e.target.closest('.modal-close');
     if (!insidePanel || isCloseBtn) closeModal();
   });
 
-  // Enter / Spasi pada gambar bertransisi (keyboard)
   $dialog.addEventListener('keydown', (e) => {
     const morph = e.target.closest?.('.modal-morph');
     if (morph && (e.key === 'Enter' || e.key === ' ')) {
